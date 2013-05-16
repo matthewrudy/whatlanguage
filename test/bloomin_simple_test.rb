@@ -1,11 +1,9 @@
 # encoding: utf-8
-require "test/unit"
-
-require 'whatlanguage/bloominsimple'
+require "test_helper"
 
 class TestBloominSimple < Test::Unit::TestCase
   def setup
-    @bloomfilter = BloominSimple.new(10)
+    @bloomfilter = BloominSimple.new(100)
   end
 
   def test_add

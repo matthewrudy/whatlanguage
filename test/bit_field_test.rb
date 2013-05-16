@@ -1,9 +1,7 @@
 # encoding: utf-8
-require "test/unit"
+require "test_helper"
 
-require 'whatlanguage/bitfield'
-
-class TestBitfield < Test::Unit::TestCase
+class BitfieldTest < Test::Unit::TestCase
   def setup
     @bitfield = BitField.new(10)
   end
