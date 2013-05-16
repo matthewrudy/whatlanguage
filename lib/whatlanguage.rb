@@ -50,8 +50,4 @@ class WhatLanguage
   end
 end
 
-class String
-  def language
-    WhatLanguage.new(:all).language(self)
-  end
-end
+require 'whatlanguage/core_extensions'
