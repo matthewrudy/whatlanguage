@@ -8,7 +8,7 @@
 #
 #              Create a Bloom filter that uses default hashing with 1Mbit wide bitfield
 #                bf = BloominSimple.new(1_000_000)
-#              
+#
 #              Add items to it
 #                File.open('/usr/share/dict/words').each { |a| bf.add(a) }
 #
@@ -36,11 +36,11 @@
 #                 #  =>    nooooooo: false
 #                 #  => newyorkcity: false
 
-require 'whatlanguage/bitfield'
+require 'bit_field'
 
 class BloominSimple
   attr_accessor :bitfield, :hasher
-  
+
   def initialize(bitsize, &block)
     @bitfield = BitField.new(bitsize)
     @size = bitsize
@@ -49,17 +49,17 @@ class BloominSimple
       [h1 = word.sum, h2 = word.hash, h2 + h1 ** 3]
     end
   end
-  
+
   # Add item to the filter
   def add(item)
     @hasher[item].each { |hi| @bitfield[hi % @size] = 1 }
   end
-  
+
   # Find out if the filter possibly contains the supplied item
   def includes?(item)
     @hasher[item].each { |hi| return false unless @bitfield[hi % @size] == 1 } and true
   end
-  
+
   # Allows comparison between two filters. Returns number of same bits.
   def &(other)
     raise "Wrong sizes" if self.bitfield.size != other.bitfield.size
@@ -75,7 +75,7 @@ class BloominSimple
     [@size, *@bitfield.field].pack("I*")
     #Marshal.dump([@size, @bitfield])
   end
-  
+
   # Creates a new bloom filter object from a stored dump (hasher has to be resent though for additions)
   def self.from_dump(data, &block)
     data = data.unpack("I*")
